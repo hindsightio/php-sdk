@@ -1,6 +1,8 @@
 <?php
 
 return [
+    'level' => \Monolog\Logger::ERROR,
+    
     'attach_request_id_to_response' => true,
 
     'blacklist' => [
