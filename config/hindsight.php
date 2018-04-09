@@ -3,6 +3,8 @@
 return [
     'level' => \Monolog\Logger::ERROR,
     
+    'api_key' => env('HINDSIGHT_API_KEY'),
+    
     'attach_request_id_to_response' => true,
 
     'blacklist' => [
