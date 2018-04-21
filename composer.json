@@ -1,6 +1,7 @@
 {
   "name": "hindsight/php-sdk",
   "description": "Monolog handler and Laravel package for Hindsight",
+  "license": "MIT",
   "authors": [
     {
       "name": "Decahedron Technologies Ltd",
