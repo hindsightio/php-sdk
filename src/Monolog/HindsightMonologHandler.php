@@ -81,7 +81,7 @@ class HindsightMonologHandler extends AbstractHandler
         unset($record['extra']);
 
         if (! empty($record['context']['exception'])) {
-            $record['context']['exception'] = $this->formatException($record['context']['exception']);
+            $record['context']['exception'] = $this->normalizeException($record['context']['exception']);
         }
 
         $record['timestamp'] = (int) $record['datetime']->format('Uv');
