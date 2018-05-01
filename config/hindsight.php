@@ -2,6 +2,7 @@
 
 return [
     'attach_request_id_to_response' => true,
+    'api_key' => '',
 
     'blacklist' => [
         'fields' => [
