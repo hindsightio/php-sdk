@@ -8,6 +8,8 @@ use Monolog\Logger;
 
 class HindsightMonologHandler extends AbstractHandler
 {
+    protected static $endpoint = 'https://logs.inhindsight.io';
+
     protected $apiToken;
 
     protected $logLevels = [
@@ -62,6 +64,16 @@ class HindsightMonologHandler extends AbstractHandler
     public function handleBatch(array $records)
     {
         $this->submitRecordsToHindsight($records);
+    }
+
+    /**
+     * Customize the endpoint to which logs are sent.
+     *
+     * @param string $endpoint
+     */
+    public static function setEndpoint(string $endpoint)
+    {
+        static::$endpoint = $endpoint;
     }
 
     /**
@@ -183,7 +195,7 @@ class HindsightMonologHandler extends AbstractHandler
     protected function submitRecordsToHindsight(array $records)
     {
         $httpClient = new Client([
-            'base_uri' => 'https://logs.inhindsight.io',
+            'base_uri' => static::$endpoint,
         ]);
 
         $records = array_map([$this, 'formatRecordForSubmission'], $records);

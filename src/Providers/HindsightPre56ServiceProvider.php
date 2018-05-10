@@ -2,14 +2,13 @@
 
 namespace Hindsight\Providers;
 
-use Hindsight\Hindsight;
-
+/**
+ * @deprecated The Hindsight pre-5.6 SP has been deprecated in favour of a common service provider as of version 0.3
+ */
 class HindsightPre56ServiceProvider extends HindsightServiceProvider
 {
     public function boot()
     {
         parent::boot();
-
-        Hindsight::setup(\Log::getMonolog(), config('hindsight.api_key'), config('hindsight.level'));
     }
 }

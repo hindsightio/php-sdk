@@ -3,31 +3,50 @@
 ## Installation
 
 1. `composer require hindsight/php-sdk`
+
+### On Laravel
+
 1. `php artisan vendor:publish --tag=hindsight`
-1. Insert your API key into the `config/hindsight.php` file and configure XYZ fields
+1. Insert your API key into the `config/hindsight.php` file and configure the remaining options to your liking
 1. Add the `\Hindsight\Middleware\HindsightRequestLogger::class` middleware to the appropriate routes via `app/Http/Kernel.php` (to add it globally) or in the route files.
 
-## Using Laravel < 5.6
+#### Laravel 5.6
+On Laravel 5.6, register a new log channel with the `hindsight` driver:
 
-If you are on an earlier Laravel version, you should (in addition to the above steps):
+```php
+    'channels' => [
+        'stack' => [
+            'driver' => 'stack',
+            // Add hindsight to the stack:
+            'channels' => ['single', 'hindsight'],
+        ],
 
-1. Add `Hindsight\Providers\HindsightPre56ServiceProvider` to the `providers` section of `config/app.php`
-1. (Laravel 5.5 only) Add `Hindsight\Providers\HindsightServiceProvider` to the `dont-discover` section of your `composer.json` (see below for full example)
+        // ...
 
-### Disabling auto-discovery (Laravel 5.5 only)
-
-In Laravel 5.5, we need to disable auto discovery of the package, as that will discover the 5.6+ Service Provider. This is done by adding the following to your `composer.json`
-
-```json
-{
-  ...
-
-  "extra": {
-    "laravel": {
-      "dont-discover": [
-        "Hindsight\\Providers\\HindsightServiceProvider"
-      ]
-    }
-  }
-}
+        'hindsight' => [
+            'driver' => 'hindsight',
+        ],
+    ],
 ```
+
+#### Laravel < 5.6
+
+If you are on Laravel 5.5, you don't need to do anything,we've automatically registered the
+service provider and the hindsight logger.
+
+If you are on Laravel 5.4 or earlier, add the `Hindsight\Providers\HindsightServiceProvider`
+to your `config/app.php`.
+
+### Without Laravel
+
+If you are not using Laravel, you may manually configure your Monolog instance to start sending
+logs to Hindsight. For convenience, we have a configuration class that you may use:
+
+```php
+use Hindsight\Hindsight;
+
+Hindsight::setup($monologInstance, $yourApiKey);
+```
+
+If you wish to have a non-standard configuration, you may manually push the `Hindsight\Monolog\HindsightMonologHandler`
+onto your Monolog instance.
