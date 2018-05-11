@@ -36,17 +36,17 @@ class HindsightRequestLogger
             'data' => $request->except(config('hindsight.blacklist.data', [])),
         ]));
 
-        /** @var \Illuminate\Http\JsonResponse|Response $response */
+        /** @var \Illuminate\Http\Response $response */
         $response = $next($request);
 
-        $data = $response instanceof JsonResponse ?
-            $response->getData(true) :
-            $response->content();
+        $data = $response->getContent();
 
-        if ($response instanceof JsonResponse && config('hindsight.attach_request_id_to_response')) {
+        if ($jsonData = json_decode($data, JSON_OBJECT_AS_ARRAY) && config('hindsight.attach_request_id_to_response')) {
+            $data = $jsonData;
+
             $data['meta'] = array_merge($data['meta'] ?? [], ['request_id' => $requestId]);
 
-            $response->setData($data);
+            $response->setContent(json_encode($data));
         }
 
         Log::debug('Request finished, sending response', [
