@@ -31,7 +31,7 @@ class HindsightServiceProvider extends ServiceProvider
         } else {
             Hindsight::setup(
                 $this->app['log']->getMonolog(),
-                config('hindsight.api_key'),
+                config('hindsight.api_key', ''),
                 config('hindsight.level', Logger::DEBUG)
             );
         }
