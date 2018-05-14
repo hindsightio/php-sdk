@@ -34,7 +34,7 @@ On Laravel 5.6, register a new log channel with the `hindsight` driver:
 If you are on Laravel 5.5, you don't need to do anything, we've automatically registered the
 service provider and the Hindsight logger.
 
-If you are on Laravel 5.4 or earlier, add the `Hindsight\Providers\HindsightServiceProvider`
+If you are on Laravel 5.4 or earlier, add the `Hindsight\Providers\HindsightServiceProvider::class`
 to your `config/app.php`.
 
 ### Without Laravel
