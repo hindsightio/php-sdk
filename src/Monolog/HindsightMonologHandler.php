@@ -194,6 +194,11 @@ class HindsightMonologHandler extends AbstractHandler
      */
     protected function submitRecordsToHindsight(array $records)
     {
+        // If no API token is specified, don't try to send any logs
+        if (! $this->apiToken) {
+            return;
+        }
+
         $httpClient = new Client([
             'base_uri' => static::$endpoint,
         ]);
