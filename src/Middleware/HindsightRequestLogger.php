@@ -41,7 +41,7 @@ class HindsightRequestLogger
 
         $data = $response->getContent();
 
-        if ($jsonData = json_decode($data, JSON_OBJECT_AS_ARRAY) && config('hindsight.attach_request_id_to_response')) {
+        if (($jsonData = json_decode($data, JSON_OBJECT_AS_ARRAY)) && config('hindsight.attach_request_id_to_response')) {
             $data = $jsonData;
 
             $data['meta'] = array_merge($data['meta'] ?? [], ['request_id' => $requestId]);
