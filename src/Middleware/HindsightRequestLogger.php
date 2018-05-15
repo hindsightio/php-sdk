@@ -33,7 +33,7 @@ class HindsightRequestLogger
         ]);
 
         Log::debug('Request initiated', array_filter([
-            'data' => $request->except(config('hindsight.blacklist.data', [])),
+            'data' => $request->except(config('hindsight.blacklist.fields', [])),
         ]));
 
         /** @var \Illuminate\Http\Response $response */
