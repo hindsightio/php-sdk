@@ -51,7 +51,7 @@ class HindsightRequestLogger
 
         Log::debug('Request finished, sending response', [
             'response' => [
-                'status' => $response->status(),
+                'status' => $response->getStatusCode(),
                 'body' => $data,
                 'headers' => $this->filterHeaders($response->headers->all()),
             ]
