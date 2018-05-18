@@ -32,9 +32,9 @@ class HindsightRequestLogger
             'headers' => $this->filterHeaders($request->headers->all()),
         ]);
 
-        Log::debug('Request initiated', array_filter([
+        Log::debug('Request initiated', array_merge(array_filter([
             'data' => $request->except(config('hindsight.blacklist.fields', [])),
-        ]));
+        ]), ['code' => 'hindsight.request-finished']));
 
         /** @var \Illuminate\Http\Response $response */
         $response = $next($request);
@@ -54,7 +54,8 @@ class HindsightRequestLogger
                 'status' => $response->getStatusCode(),
                 'body' => $data,
                 'headers' => $this->filterHeaders($response->headers->all()),
-            ]
+            ],
+            'code' => 'hindsight.request-finished',
         ]);
 
         return $response;
