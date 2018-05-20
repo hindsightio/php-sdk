@@ -34,7 +34,7 @@ class HindsightRequestLogger
 
         Log::debug('Request initiated', array_merge(array_filter([
             'data' => $request->except(config('hindsight.blacklist.fields', [])),
-        ]), ['code' => 'hindsight.request-finished']));
+        ]), ['code' => 'hindsight.request-started']));
 
         /** @var \Illuminate\Http\Response $response */
         $response = $next($request);
