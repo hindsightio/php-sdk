@@ -24,6 +24,9 @@ class HindsightRequestLogger
         StickyContext::stack('hindsight')->add('actor_id', function () {
             return \Auth::id();
         });
+        StickyContext::stack('hindsight')->add('environment', function () {
+            return \App::environment();
+        });
         StickyContext::stack('hindsight')->add('request', [
             'id' => $requestId = Uuid::uuid4()->toString(),
             'ip' => $request->getClientIp(),
