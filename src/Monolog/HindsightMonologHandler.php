@@ -3,6 +3,7 @@
 namespace Hindsight\Monolog;
 
 use GuzzleHttp\Client;
+use Hindsight\Contracts\LoggableEntity;
 use Monolog\Handler\AbstractHandler;
 use Monolog\Logger;
 
@@ -88,13 +89,10 @@ class HindsightMonologHandler extends AbstractHandler
 
         $record['context'] = array_merge(
             $this->formatExtras($record['extra'] ?? []),
-            $record['context'] ?? []
+            $this->normalize($record['context'] ?? [])
         );
-        unset($record['extra']);
 
-        if (! empty($record['context']['exception'])) {
-            $record['context']['exception'] = $this->normalizeException($record['context']['exception']);
-        }
+        unset($record['extra']);
 
         $record['timestamp'] = (int) $record['datetime']->format('Uv');
         unset($record['datetime']);
@@ -182,6 +180,10 @@ class HindsightMonologHandler extends AbstractHandler
 
         if ($data instanceof \Throwable) {
             return $this->normalizeException($data, $depth);
+        }
+
+        if ($data instanceof LoggableEntity) {
+            return $this->normalize($data->toLoggableArray());
         }
 
         return $data;
